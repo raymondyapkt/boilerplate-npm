@@ -7,6 +7,8 @@
 const dns = require("dns");
 const hostname = "www.freecodecamp.org";
 
+
+
 try {
   dns.lookup(hostname, (err, address, family) => {
     if (err) {
