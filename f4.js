@@ -1,41 +1,58 @@
 
-
 var exLs = {
   fd001: { username: 'fcc_test_16993374739' },
-  fd002: { username: 'fcc_test_16993374739' },
-  fd012: {
+  fd003: { username: 'fcc_test_16993374739' },
+  fd002: {
     username: 'fcc_test_16993374740',
-    count: 9,
-    _id: 'fd012',
-    log: [ 
-      { description: 'test', duration: 60, date: '1989-12-30' },
-      { description: 'test', duration: 60, date: '1989-12-31' },
-      { description: 'test', duration: 60, date: '1990-01-01' },
-      { description: 'test', duration: 60, date: '1990-01-02' },
-      { description: 'test', duration: 60, date: '1990-01-03' },
-      { description: 'test', duration: 60, date: '1990-01-04' },
-      { description: 'test', duration: 60, date: '1990-01-05' }
-]}}
+    count: 7,
+    _id: 'fd002',
+    log: 
+    [{"description":"descr1*","duration":59,"date":"Mon Jan 01 2001"},
+    {"description":"descr1*","duration":59,"date":"Tue Jan 02 2001"},
+    {"description":"descr1*","duration":59,"date":"Wed Jan 03 2001"},
+    {"description":"descr1*","duration":59,"date":"Thu Jan 04 2001"},
+    {"description":"descr1*","duration":59,"date":"Fri Jan 05 2001"},
+    {"description":"descr1*","duration":59,"date":"Sat Jan 06 2001"},
+    {"description":"descr1*","duration":59,"date":"Sun Jan 07 2001"}
+  ]}}
 
-var from = "1989-12-31"
-var to = "1990-01-03"
-var limit //  = "3"; 
-var _id =  "fd012"
+var xfrom = "1990-01-02"
+var xto = "1990-01-06"
+var limit  // = "5"; 
+var _id =  "fd002"
+var count = 0 
 
-    from = (new Date(from)).getTime()
-    to   = (new Date(to)  ).getTime()
+    dfrom = (new Date(from)).getTime()
+    dto   = (new Date(to)  ).getTime()
 
     if     ( typeof(limit) === "undefined" ){
-      limit =  exLs[_id]["log"].length
-    } else { limit = parseInt(limit)}
+      count =  exLs[_id]["log"].length
+    } else { count = parseInt(limit)}
     
-
+    var  tempLogs = {}
+    
+    tempLogs["username"] = exLs[_id]["username"]
+    tempLogs["count"]    = exLs[_id]["count"]
+    tempLogs["_id"]      = exLs[_id]["_id"]
+    tempLogs["log"]      = []
     
     for ( i=0 ; i<exLs[_id]["log"].length ; i++ ) {
       var dateR = (new Date((exLs[_id]["log"][i]["date"]))).getTime() 
       
-      if   ( dateR < from  ||  to < dateR || limit < 1 ) { continue}
-      else {  console.log(  exLs[_id]["log"][i] )  ; limit --  }
+      if   ( dateR < dfrom  ||  dto < dateR  ) { continue}
+      else {  
 
-
+        tempLogs["log"].push(exLs[_id]["log"][i])
+        limit --  }
     }
+
+   console.log(  tempLogs )
+
+    // http://127.0.0.1:3000/api/users/fd002/logs?from=2001-01-02&to=2001-01-06
+    // http://127.0.0.1:3000/api/users/fd012/logs?from=2001-01-01&to=2001-01-04
+
+    // http://127.0.0.1:3000/api/users/fd012/logs?from=1989-12-31&to=1990-01-04&limit=1
+    // http://127.0.0.1:3000/api/users/fd012/logs?from=1990-01-02&to=1990-01-04&limit=1
+
+
+    // fccheader parser 
